@@ -1,5 +1,7 @@
-const pingRoutes = require('./ping');
+const pingRoute = require('./ping');
+const allBooksRoute = require('./allBooks');
 
 module.exports = [
-  ...pingRoutes,
+  ...pingRoute,
+  ...allBooksRoute,
 ];
