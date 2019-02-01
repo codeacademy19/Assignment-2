@@ -1,5 +1,7 @@
 const axios = require('axios');
 
+const insertHandler = require('./insertHandler');
+
 const rateArray = [];
 const callback = (rating) => {
   rateArray.push(rating);
@@ -22,12 +24,15 @@ module.exports = async (request, h) => {
 
   for (let i = 0; i < rateArray.length; i++) {
     posts.data.books[i].rating = rateArray[i];
+    insertHandler(posts.data.books[i].id, posts.data.books[i].Author, posts.data.books[i].name, rateArray[i]);
   }
+
   // const jsonObject = posts.data.books.keys();
   const jsonObject = posts.data.books.reduce((result, current) => {
     result[current.Author] = result[current.Author] || [];
     result[current.Author].push(current);
     return result;
   }, {});
-  return (jsonObject);
+
+  return h.response(jsonObject);
 };
